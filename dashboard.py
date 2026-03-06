@@ -17,159 +17,151 @@ st.set_page_config(
 # ── Styles ────────────────────────────────────────────────────────────────────
 st.markdown("""
 <style>
-  /* Import modern font */
   @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
 
-  /* Global styles */
   * { font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif !important; }
 
-  /* Main background - clean white */
   .stApp {
-    background: #fafafa;
+    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
   }
 
-  /* Sidebar styling - minimal dark */
   [data-testid="stSidebar"] {
-    background: #1a1a1a;
-    border-right: 1px solid #e5e5e5;
+    background: linear-gradient(180deg, #2d3748 0%, #1a202c 100%);
+    border-right: none;
   }
-  [data-testid="stSidebar"] * { color: #e0e0e0 !important; }
+  [data-testid="stSidebar"] * { color: #e2e8f0 !important; }
   [data-testid="stSidebar"] .stRadio > label {
     font-size: 14px !important;
     font-weight: 500 !important;
-    padding: 10px 0 !important;
-    transition: color 0.2s;
+    padding: 10px 16px !important;
+    border-radius: 8px !important;
+    transition: all 0.2s;
   }
   [data-testid="stSidebar"] .stRadio > label:hover {
-    color: #ffffff !important;
+    background: rgba(255,255,255,0.1) !important;
   }
   [data-testid="stSidebar"] hr {
     border-color: rgba(255,255,255,0.1) !important;
     margin: 24px 0 !important;
   }
 
-  /* Main content container */
   .main .block-container {
-    padding: 3rem 4rem;
+    padding: 2rem 3rem;
     max-width: 1400px;
     background: transparent;
     margin: 0 auto;
   }
 
-  /* Headers - clean and minimal */
   h1 {
-    color: #1a1a1a !important;
+    color: #1a202c !important;
     font-weight: 700 !important;
     font-size: 2.5rem !important;
     margin-bottom: 0.5rem !important;
     letter-spacing: -0.02em !important;
   }
   h2, h3, h4 {
-    color: #2a2a2a !important;
+    color: #2d3748 !important;
     font-weight: 600 !important;
     letter-spacing: -0.01em !important;
   }
 
-  /* Metric cards - clean card style */
   .metric-card {
-    background: #ffffff;
-    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.9);
+    backdrop-filter: blur(10px);
+    border-radius: 16px;
     padding: 24px;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.08);
-    border: 1px solid #f0f0f0;
-    transition: all 0.2s ease;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+    border: 1px solid rgba(255,255,255,0.5);
+    transition: all 0.3s ease;
     height: 100%;
   }
   .metric-card:hover {
-    box-shadow: 0 4px 12px rgba(0,0,0,0.12);
-    transform: translateY(-2px);
+    transform: translateY(-4px);
+    box-shadow: 0 8px 30px rgba(0,0,0,0.12);
   }
 
-  /* Article cards - gallery style */
   .article-card {
-    background: #ffffff;
-    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    border-radius: 12px;
     padding: 20px;
     margin-bottom: 16px;
-    border: 1px solid #f0f0f0;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.06);
-    transition: all 0.2s ease;
+    border: 1px solid rgba(255,255,255,0.6);
+    box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+    transition: all 0.3s ease;
   }
   .article-card:hover {
-    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
     transform: translateY(-2px);
-    border-color: #e0e0e0;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+    border-color: rgba(99, 102, 241, 0.3);
   }
   .article-card a {
-    color: #1a1a1a;
+    color: #1a202c;
     font-weight: 600;
     text-decoration: none;
     font-size: 15px;
     line-height: 1.5;
   }
   .article-card a:hover {
-    color: #4a4a4a;
+    color: #6366f1;
   }
   .article-card .source {
     font-size: 12px;
-    color: #888;
+    color: #718096;
     margin-top: 8px;
     font-weight: 500;
   }
 
-  /* Section headers - minimal badge */
   .section-header {
     display: inline-block;
-    padding: 6px 16px;
+    padding: 8px 20px;
     border-radius: 20px;
     font-weight: 600;
     font-size: 14px;
     margin: 20px 0 16px 0;
-    background: #f5f5f5;
-    color: #2a2a2a;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
   }
 
-  /* Buttons */
   .stButton > button {
-    border-radius: 8px;
+    border-radius: 10px;
     font-weight: 500;
     padding: 0.5rem 1.5rem;
     transition: all 0.2s;
-    border: 1px solid #e0e0e0;
-  }
-  .stButton > button:hover {
-    border-color: #1a1a1a;
-    background: #1a1a1a;
+    border: none;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     color: white;
   }
+  .stButton > button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+  }
 
-  /* Expander */
   .streamlit-expanderHeader {
-    background: #ffffff;
-    border: 1px solid #f0f0f0;
-    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.9);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255,255,255,0.5);
+    border-radius: 10px;
     font-weight: 600;
     padding: 12px 16px;
   }
 
-  /* Info boxes */
   .stAlert {
-    border-radius: 8px;
-    border: 1px solid #e0e0e0;
+    border-radius: 12px;
+    border: 1px solid rgba(255,255,255,0.5);
+    background: rgba(255, 255, 255, 0.9);
+    backdrop-filter: blur(10px);
   }
 
-  /* Input fields */
-  .stTextInput > div > div > input {
-    border-radius: 8px;
-    border: 1px solid #e0e0e0;
-  }
-
-  /* Select boxes */
+  .stTextInput > div > div > input,
   .stSelectbox > div > div {
-    border-radius: 8px;
+    border-radius: 10px;
+    border: 1px solid rgba(255,255,255,0.5);
+    background: rgba(255, 255, 255, 0.9);
+    backdrop-filter: blur(10px);
   }
 
-  /* Remove default streamlit padding */
   .main > div {
     padding-top: 2rem;
   }
@@ -249,17 +241,17 @@ if page == "🏠 Overview":
 
     c1, c2, c3, c4 = st.columns(4)
     metrics = [
-        (c1, "Total Articles", total_articles, "#1a1a1a"),
-        (c2, "Days Tracked",   total_scans,    "#1a1a1a"),
-        (c3, "Unique Sources", total_sources,  "#1a1a1a"),
-        (c4, "Top Keyword",    top_word,       "#1a1a1a"),
+        (c1, "Total Articles", total_articles, "linear-gradient(135deg, #667eea 0%, #764ba2 100%)"),
+        (c2, "Days Tracked",   total_scans,    "linear-gradient(135deg, #f093fb 0%, #f5576c 100%)"),
+        (c3, "Unique Sources", total_sources,  "linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)"),
+        (c4, "Top Keyword",    top_word,       "linear-gradient(135deg, #43e97b 0%, #38f9d7 100%)"),
     ]
 
-    for col, label, value, color in metrics:
+    for col, label, value, gradient in metrics:
         col.markdown(f"""
         <div class="metric-card">
-          <div style="font-size:11px;color:#888;margin-bottom:8px;text-transform:uppercase;letter-spacing:1px;font-weight:600">{label}</div>
-          <div style="font-size:36px;font-weight:700;color:{color};line-height:1">{value}</div>
+          <div style="font-size:11px;color:#718096;margin-bottom:12px;text-transform:uppercase;letter-spacing:1px;font-weight:600">{label}</div>
+          <div style="font-size:36px;font-weight:700;background:{gradient};-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;line-height:1">{value}</div>
         </div>""", unsafe_allow_html=True)
 
     st.markdown("<br>", unsafe_allow_html=True)

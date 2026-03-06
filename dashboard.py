@@ -18,145 +18,160 @@ st.set_page_config(
 st.markdown("""
 <style>
   /* Import modern font */
-  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
 
   /* Global styles */
-  * { font-family: 'Inter', sans-serif !important; }
+  * { font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif !important; }
 
-  /* Main background */
+  /* Main background - clean white */
   .stApp {
-    background: #ffffff;
+    background: #fafafa;
   }
 
-  /* Sidebar styling */
+  /* Sidebar styling - minimal dark */
   [data-testid="stSidebar"] {
-    background: linear-gradient(180deg, #1a1a2e 0%, #16213e 100%);
-    box-shadow: 4px 0 20px rgba(0,0,0,0.3);
+    background: #1a1a1a;
+    border-right: 1px solid #e5e5e5;
   }
-  [data-testid="stSidebar"] * { color: #e0e6ed !important; }
+  [data-testid="stSidebar"] * { color: #e0e0e0 !important; }
   [data-testid="stSidebar"] .stRadio > label {
-    font-size: 15px !important;
+    font-size: 14px !important;
     font-weight: 500 !important;
-    padding: 8px 0 !important;
+    padding: 10px 0 !important;
+    transition: color 0.2s;
+  }
+  [data-testid="stSidebar"] .stRadio > label:hover {
+    color: #ffffff !important;
   }
   [data-testid="stSidebar"] hr {
     border-color: rgba(255,255,255,0.1) !important;
-    margin: 20px 0 !important;
+    margin: 24px 0 !important;
   }
 
   /* Main content container */
   .main .block-container {
-    padding: 2rem 3rem;
+    padding: 3rem 4rem;
     max-width: 1400px;
-    background: #ffffff;
-    border-radius: 0px;
+    background: transparent;
     margin: 0 auto;
-    box-shadow: none;
   }
 
-  /* Headers */
+  /* Headers - clean and minimal */
   h1 {
-    color: #1a1a2e !important;
+    color: #1a1a1a !important;
     font-weight: 700 !important;
     font-size: 2.5rem !important;
     margin-bottom: 0.5rem !important;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
+    letter-spacing: -0.02em !important;
   }
   h2, h3, h4 {
-    color: #2d3748 !important;
+    color: #2a2a2a !important;
     font-weight: 600 !important;
+    letter-spacing: -0.01em !important;
   }
 
-  /* Metric cards */
+  /* Metric cards - clean card style */
   .metric-card {
-    background: linear-gradient(135deg, #ffffff 0%, #f7fafc 100%);
-    border-radius: 16px;
-    padding: 24px 28px;
-    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
-    border-left: 5px solid;
-    transition: transform 0.2s, box-shadow 0.2s;
+    background: #ffffff;
+    border-radius: 12px;
+    padding: 24px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+    border: 1px solid #f0f0f0;
+    transition: all 0.2s ease;
     height: 100%;
   }
   .metric-card:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 8px 30px rgba(0,0,0,0.15);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.12);
+    transform: translateY(-2px);
   }
 
-  /* Article cards */
+  /* Article cards - gallery style */
   .article-card {
     background: #ffffff;
-    border-radius: 12px;
-    padding: 18px 22px;
-    margin-bottom: 14px;
-    border-left: 5px solid #6C63FF;
-    box-shadow: 0 2px 12px rgba(0,0,0,0.06);
-    transition: all 0.2s;
+    border-radius: 10px;
+    padding: 20px;
+    margin-bottom: 16px;
+    border: 1px solid #f0f0f0;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+    transition: all 0.2s ease;
   }
   .article-card:hover {
-    transform: translateX(4px);
-    box-shadow: 0 4px 20px rgba(108,99,255,0.15);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    transform: translateY(-2px);
+    border-color: #e0e0e0;
   }
   .article-card a {
-    color: #1a1a2e;
+    color: #1a1a1a;
     font-weight: 600;
     text-decoration: none;
     font-size: 15px;
     line-height: 1.5;
   }
   .article-card a:hover {
-    color: #6C63FF;
+    color: #4a4a4a;
   }
   .article-card .source {
     font-size: 12px;
-    color: #6C63FF;
+    color: #888;
     margin-top: 8px;
     font-weight: 500;
   }
 
-  /* Section headers */
+  /* Section headers - minimal badge */
   .section-header {
     display: inline-block;
-    padding: 8px 20px;
-    border-radius: 25px;
+    padding: 6px 16px;
+    border-radius: 20px;
     font-weight: 600;
-    font-size: 18px;
+    font-size: 14px;
     margin: 20px 0 16px 0;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    background: #f5f5f5;
+    color: #2a2a2a;
   }
 
-  /* Buttons and inputs */
+  /* Buttons */
   .stButton > button {
-    border-radius: 10px;
-    font-weight: 600;
-    padding: 0.5rem 2rem;
+    border-radius: 8px;
+    font-weight: 500;
+    padding: 0.5rem 1.5rem;
     transition: all 0.2s;
+    border: 1px solid #e0e0e0;
   }
   .stButton > button:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    border-color: #1a1a1a;
+    background: #1a1a1a;
+    color: white;
   }
 
-  /* Expander styling */
+  /* Expander */
   .streamlit-expanderHeader {
-    background: linear-gradient(135deg, #f7fafc 0%, #edf2f7 100%);
-    border-radius: 10px;
+    background: #ffffff;
+    border: 1px solid #f0f0f0;
+    border-radius: 8px;
     font-weight: 600;
     padding: 12px 16px;
   }
 
-  /* Info/warning boxes */
+  /* Info boxes */
   .stAlert {
-    border-radius: 12px;
-    border-left: 5px solid;
+    border-radius: 8px;
+    border: 1px solid #e0e0e0;
   }
 
-  /* Plotly charts */
-  .js-plotly-plot {
-    border-radius: 12px;
-    overflow: hidden;
+  /* Input fields */
+  .stTextInput > div > div > input {
+    border-radius: 8px;
+    border: 1px solid #e0e0e0;
+  }
+
+  /* Select boxes */
+  .stSelectbox > div > div {
+    border-radius: 8px;
+  }
+
+  /* Remove default streamlit padding */
+  .main > div {
+    padding-top: 2rem;
   }
 </style>
 """, unsafe_allow_html=True)
@@ -234,22 +249,21 @@ if page == "🏠 Overview":
 
     c1, c2, c3, c4 = st.columns(4)
     metrics = [
-        (c1, "Total Articles", total_articles, "#6C63FF", "📰"),
-        (c2, "Days Tracked",   total_scans,    "#00BFA5", "📅"),
-        (c3, "Unique Sources", total_sources,  "#FF6B6B", "🌐"),
-        (c4, "Top Keyword",    top_word,       "#FFA940", "🔥"),
+        (c1, "Total Articles", total_articles, "#1a1a1a"),
+        (c2, "Days Tracked",   total_scans,    "#1a1a1a"),
+        (c3, "Unique Sources", total_sources,  "#1a1a1a"),
+        (c4, "Top Keyword",    top_word,       "#1a1a1a"),
     ]
 
-    for col, label, value, color, icon in metrics:
+    for col, label, value, color in metrics:
         col.markdown(f"""
-        <div class="metric-card" style="border-color:{color}">
-          <div style="font-size:24px;margin-bottom:8px">{icon}</div>
-          <div style="font-size:12px;color:#718096;margin-bottom:6px;text-transform:uppercase;letter-spacing:0.5px;font-weight:600">{label}</div>
-          <div style="font-size:32px;font-weight:700;color:{color}">{value}</div>
+        <div class="metric-card">
+          <div style="font-size:11px;color:#888;margin-bottom:8px;text-transform:uppercase;letter-spacing:1px;font-weight:600">{label}</div>
+          <div style="font-size:36px;font-weight:700;color:{color};line-height:1">{value}</div>
         </div>""", unsafe_allow_html=True)
 
     st.markdown("<br>", unsafe_allow_html=True)
-    st.markdown("### 📰 Today's Articles")
+    st.markdown("### Today's Articles")
 
     # Get latest scan
     if not runs.empty:
@@ -267,22 +281,18 @@ if page == "🏠 Overview":
                 st.info("No data yet. Run daily_ai_news.py to populate.")
             else:
                 for section in latest["section"].unique():
-                    color = SECTION_COLORS.get(section, "#6C63FF")
-                    section_emoji = {"Top AI News": "🗞️", "Model & Research": "🧠",
-                                    "Regulation & Policy": "⚖️", "Investment & Funding": "💰"}.get(section, "📌")
-
                     st.markdown(f"""
-                    <div class="section-header" style="background:{color};color:white;">
-                      {section_emoji} {section}
+                    <div class="section-header">
+                      {section}
                     </div>""", unsafe_allow_html=True)
 
                     for _, row in latest[latest["section"] == section].iterrows():
                         snippet = str(row.snippet)[:200] if pd.notna(row.snippet) else ""
                         st.markdown(f"""
-                        <div class="article-card" style="border-color:{color}">
+                        <div class="article-card">
                           <a href="{row.url}" target="_blank">{row.title}</a>
-                          <div style="font-size:13px;color:#718096;margin-top:8px;line-height:1.6">{snippet}…</div>
-                          <div class="source" style="color:{color}">🔗 {row.source_domain}</div>
+                          <div style="font-size:13px;color:#666;margin-top:10px;line-height:1.6">{snippet}…</div>
+                          <div class="source">{row.source_domain}</div>
                         </div>""", unsafe_allow_html=True)
 
 # ── Page: Hot Topics ──────────────────────────────────────────────────────────
@@ -302,35 +312,34 @@ elif page == "🔥 Hot Topics":
         with col1:
             fig = px.bar(
                 kw_df.head(20), x="total", y="keyword",
-                orientation="h", color="total",
-                color_continuous_scale=["#E0E7FF", "#6C63FF"],
-                title="<b>Top 20 Keywords</b>",
+                orientation="h",
+                title="Top 20 Keywords",
                 labels={"total": "Mentions", "keyword": ""},
             )
+            fig.update_traces(marker_color='#1a1a1a', marker_line_width=0)
             fig.update_layout(
                 yaxis=dict(autorange="reversed"),
-                coloraxis_showscale=False,
                 plot_bgcolor="rgba(0,0,0,0)",
                 paper_bgcolor="rgba(0,0,0,0)",
-                font=dict(family="Inter, sans-serif", size=12),
-                title_font=dict(size=18, color="#1a1a2e"),
+                font=dict(family="Inter, sans-serif", size=12, color="#2a2a2a"),
+                title_font=dict(size=20, color="#1a1a1a", family="Inter"),
                 margin=dict(l=20, r=20, t=60, b=20),
-                hoverlabel=dict(bgcolor="white", font_size=13),
+                hoverlabel=dict(bgcolor="white", font_size=13, bordercolor="#e0e0e0"),
+                hovermode="closest",
             )
-            fig.update_traces(marker_line_width=0, hovertemplate="<b>%{y}</b><br>%{x} mentions<extra></extra>")
             st.plotly_chart(fig, use_container_width=True)
 
         with col2:
-            st.markdown("### 📊 Top 40 Keywords")
+            st.markdown("### Top 40 Keywords")
             max_v = kw_df["total"].max()
             for _, row in kw_df.iterrows():
                 pct = int(row.total / max_v * 100)
                 st.markdown(f"""
-                <div style="margin-bottom:10px;padding:8px;background:white;border-radius:8px;box-shadow:0 1px 4px rgba(0,0,0,0.05)">
-                  <span style="font-size:13px;font-weight:600;color:#2d3748">{row.keyword}</span>
-                  <span style="float:right;font-size:12px;color:#718096;font-weight:600">{int(row.total)}</span>
-                  <div style="background:#E2E8F0;border-radius:6px;height:8px;margin-top:6px">
-                    <div style="background:linear-gradient(90deg, #6C63FF 0%, #9F7AEA 100%);width:{pct}%;height:8px;border-radius:6px;transition:width 0.3s"></div>
+                <div style="margin-bottom:8px;padding:10px;background:white;border-radius:8px;border:1px solid #f0f0f0">
+                  <span style="font-size:13px;font-weight:600;color:#1a1a1a">{row.keyword}</span>
+                  <span style="float:right;font-size:12px;color:#888;font-weight:500">{int(row.total)}</span>
+                  <div style="background:#f5f5f5;border-radius:4px;height:6px;margin-top:8px">
+                    <div style="background:#1a1a1a;width:{pct}%;height:6px;border-radius:4px"></div>
                   </div>
                 </div>""", unsafe_allow_html=True)
 
@@ -354,21 +363,21 @@ elif page == "📈 Trends Over Time":
             daily_counts = df.groupby("scan_date").size().reset_index(name="count")
             daily_counts["scan_date"] = pd.to_datetime(daily_counts["scan_date"])
 
-            fig1 = px.area(
+            fig1 = px.line(
                 daily_counts, x="scan_date", y="count",
-                title="<b>Articles Per Day</b>",
+                title="Articles Per Day",
                 labels={"scan_date": "Date", "count": "Articles"},
+                markers=True,
             )
             fig1.update_traces(
-                line_color="#6C63FF",
-                fillcolor="rgba(108, 99, 255, 0.2)",
-                hovertemplate="<b>%{x|%b %d}</b><br>%{y} articles<extra></extra>"
+                line_color="#1a1a1a",
+                marker=dict(size=6, color="#1a1a1a"),
             )
             fig1.update_layout(
                 plot_bgcolor="rgba(0,0,0,0)",
                 paper_bgcolor="rgba(0,0,0,0)",
-                font=dict(family="Inter, sans-serif", size=12),
-                title_font=dict(size=18, color="#1a1a2e"),
+                font=dict(family="Inter, sans-serif", size=12, color="#2a2a2a"),
+                title_font=dict(size=20, color="#1a1a1a"),
                 margin=dict(l=20, r=20, t=60, b=20),
                 hovermode="x unified",
             )
@@ -378,19 +387,27 @@ elif page == "📈 Trends Over Time":
             section_daily = df.groupby(["scan_date", "section"]).size().reset_index(name="count")
             section_daily["scan_date"] = pd.to_datetime(section_daily["scan_date"])
 
+            # Use grayscale colors for minimal look
+            gray_colors = {
+                "Top AI News": "#1a1a1a",
+                "Model & Research": "#4a4a4a",
+                "Regulation & Policy": "#6a6a6a",
+                "Investment & Funding": "#8a8a8a",
+            }
+
             fig2 = px.line(
                 section_daily, x="scan_date", y="count", color="section",
-                title="<b>Articles by Section Over Time</b>",
+                title="Articles by Section Over Time",
                 labels={"scan_date": "Date", "count": "Articles"},
                 markers=True,
-                color_discrete_map=SECTION_COLORS,
+                color_discrete_map=gray_colors,
             )
-            fig2.update_traces(marker=dict(size=8), line=dict(width=3))
+            fig2.update_traces(marker=dict(size=6), line=dict(width=2))
             fig2.update_layout(
                 plot_bgcolor="rgba(0,0,0,0)",
                 paper_bgcolor="rgba(0,0,0,0)",
-                font=dict(family="Inter, sans-serif", size=12),
-                title_font=dict(size=18, color="#1a1a2e"),
+                font=dict(family="Inter, sans-serif", size=12, color="#2a2a2a"),
+                title_font=dict(size=20, color="#1a1a1a"),
                 margin=dict(l=20, r=20, t=60, b=20),
                 hovermode="x unified",
                 legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="right", x=1)
@@ -398,7 +415,7 @@ elif page == "📈 Trends Over Time":
             st.plotly_chart(fig2, use_container_width=True)
 
             # Top keywords trend
-            st.markdown("### 🔥 Keyword Trends")
+            st.markdown("### Keyword Trends")
             keywords = query_supabase("keywords", select="article_id,keyword,frequency", limit=5000)
 
             if not keywords.empty:
@@ -415,16 +432,16 @@ elif page == "📈 Trends Over Time":
 
                 fig3 = px.line(
                     kw_trend, x="scan_date", y="frequency", color="keyword",
-                    title="<b>Top 5 Keywords Over Time</b>",
+                    title="Top 5 Keywords Over Time",
                     labels={"scan_date": "Date", "frequency": "Mentions"},
                     markers=True,
                 )
-                fig3.update_traces(marker=dict(size=8), line=dict(width=3))
+                fig3.update_traces(marker=dict(size=6), line=dict(width=2))
                 fig3.update_layout(
                     plot_bgcolor="rgba(0,0,0,0)",
                     paper_bgcolor="rgba(0,0,0,0)",
-                    font=dict(family="Inter, sans-serif", size=12),
-                    title_font=dict(size=18, color="#1a1a2e"),
+                    font=dict(family="Inter, sans-serif", size=12, color="#2a2a2a"),
+                    title_font=dict(size=20, color="#1a1a1a"),
                     margin=dict(l=20, r=20, t=60, b=20),
                     hovermode="x unified",
                     legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="right", x=1)
@@ -441,21 +458,21 @@ elif page == "🗂️ By Section":
         section_counts = articles["section"].value_counts().reset_index()
         section_counts.columns = ["section", "total"]
 
-        colors = [SECTION_COLORS.get(s, "#6C63FF") for s in section_counts["section"]]
+        # Use grayscale for minimal look
+        gray_shades = ["#1a1a1a", "#4a4a4a", "#6a6a6a", "#8a8a8a"]
         fig = go.Figure(go.Pie(
             labels=section_counts["section"],
             values=section_counts["total"],
-            hole=0.6,
-            marker=dict(colors=colors, line=dict(color='white', width=3)),
+            hole=0.5,
+            marker=dict(colors=gray_shades, line=dict(color='white', width=2)),
             textinfo='label+percent',
-            textfont=dict(size=14, family="Inter, sans-serif"),
-            hovertemplate="<b>%{label}</b><br>%{value} articles<br>%{percent}<extra></extra>"
+            textfont=dict(size=13, family="Inter, sans-serif"),
         ))
         fig.update_layout(
-            title="<b>Total Articles by Section (All Time)</b>",
+            title="Total Articles by Section (All Time)",
             paper_bgcolor="rgba(0,0,0,0)",
-            font=dict(family="Inter, sans-serif", size=12),
-            title_font=dict(size=18, color="#1a1a2e"),
+            font=dict(family="Inter, sans-serif", size=12, color="#2a2a2a"),
+            title_font=dict(size=20, color="#1a1a1a"),
             margin=dict(l=20, r=20, t=60, b=20),
             showlegend=False
         )
@@ -463,18 +480,17 @@ elif page == "🗂️ By Section":
 
         st.markdown("---")
         section = st.selectbox("Browse section", list(SECTION_COLORS.keys()))
-        color = SECTION_COLORS[section]
 
         section_articles = articles[articles["section"] == section].head(20)
 
-        st.markdown(f"#### 📚 Recent Articles in {section}")
+        st.markdown(f"#### Recent Articles in {section}")
         for _, row in section_articles.iterrows():
             snippet = str(row.snippet)[:180] if pd.notna(row.snippet) else ""
             st.markdown(f"""
-            <div class="article-card" style="border-color:{color}">
+            <div class="article-card">
               <a href="{row.url}" target="_blank">{row.title}</a>
-              <div style="font-size:12px;color:#555;margin-top:4px">{snippet}…</div>
-              <div class="source" style="color:{color}">🔗 {row.source_domain}</div>
+              <div style="font-size:13px;color:#666;margin-top:10px;line-height:1.6">{snippet}…</div>
+              <div class="source">{row.source_domain}</div>
             </div>""", unsafe_allow_html=True)
 
 # ── Page: Search ──────────────────────────────────────────────────────────────

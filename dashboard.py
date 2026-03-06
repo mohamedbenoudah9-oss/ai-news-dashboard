@@ -41,7 +41,7 @@ SECTION_COLORS = {
 
 # ── DB connection (Supabase in cloud, SQLite locally) ─────────────────────────
 @st.cache_resource
-def get_conn():
+def get_db_connection():
     try:
         import psycopg2
         cfg = st.secrets["supabase"]
@@ -51,7 +51,8 @@ def get_conn():
             sslmode="require",
         )
         return conn, "pg"
-    except Exception:
+    except Exception as e:
+        st.error(f"Supabase connection failed: {e}")
         import sqlite3
         from pathlib import Path
         db_path = Path(__file__).parent / "ai_news.db"
@@ -60,12 +61,12 @@ def get_conn():
         return conn, "sqlite"
 
 def query(sql: str, params=()) -> pd.DataFrame:
-    conn, mode = get_conn()
+    conn, mode = get_db_connection()
     if mode == "pg":
         # psycopg2 uses %s placeholders
         sql = sql.replace("?", "%s")
-        sql = sql.replace("date('now', '", "NOW() - INTERVAL '")
-        sql = sql.replace("days')", "days'")
+        sql = sql.replace("date('now', '-", "NOW() - INTERVAL '")
+        sql = sql.replace(" days')", " days'")
     return pd.read_sql_query(sql, conn, params=params if params else None)
 
 # ── Sidebar ───────────────────────────────────────────────────────────────────
@@ -142,7 +143,7 @@ elif page == "🔥 Hot Topics":
     period = st.selectbox("Period", ["Last 7 days", "Last 30 days", "All time"])
     days = {"Last 7 days": 7, "Last 30 days": 30, "All time": 9999}[period]
 
-    _, mode = get_conn()
+    _, mode = get_db_connection()
     if mode == "pg":
         date_filter = f"r.scan_date >= NOW() - INTERVAL '{days} days'"
     else:

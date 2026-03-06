@@ -190,7 +190,71 @@ elif page == "🔥 Hot Topics":
 # ── Page: Trends Over Time ────────────────────────────────────────────────────
 elif page == "📈 Trends Over Time":
     st.title("📈 Trends Over Time")
-    st.info("Trends view requires SQL joins — coming soon with enhanced API access.")
+
+    runs = query_supabase("scan_runs", select="id,scan_date", order="scan_date.asc")
+
+    if runs.empty or len(runs) < 2:
+        st.info("Not enough data yet — need at least 2 days of scans to show trends.")
+    else:
+        # Get all articles with run info
+        articles = query_supabase("articles", select="run_id,section", limit=5000)
+
+        if not articles.empty:
+            # Merge to get dates
+            df = articles.merge(runs, left_on="run_id", right_on="id", how="left")
+
+            # Articles per day
+            daily_counts = df.groupby("scan_date").size().reset_index(name="count")
+            daily_counts["scan_date"] = pd.to_datetime(daily_counts["scan_date"])
+
+            fig1 = px.line(
+                daily_counts, x="scan_date", y="count",
+                title="Articles Per Day",
+                labels={"scan_date": "Date", "count": "Articles"},
+                markers=True,
+            )
+            fig1.update_traces(line_color="#6C63FF", marker=dict(size=8))
+            fig1.update_layout(plot_bgcolor="#f8f9fc", paper_bgcolor="#f8f9fc")
+            st.plotly_chart(fig1, use_container_width=True)
+
+            # Articles by section over time
+            section_daily = df.groupby(["scan_date", "section"]).size().reset_index(name="count")
+            section_daily["scan_date"] = pd.to_datetime(section_daily["scan_date"])
+
+            fig2 = px.line(
+                section_daily, x="scan_date", y="count", color="section",
+                title="Articles by Section Over Time",
+                labels={"scan_date": "Date", "count": "Articles"},
+                markers=True,
+                color_discrete_map=SECTION_COLORS,
+            )
+            fig2.update_layout(plot_bgcolor="#f8f9fc", paper_bgcolor="#f8f9fc")
+            st.plotly_chart(fig2, use_container_width=True)
+
+            # Top keywords trend
+            st.markdown("### Keyword Trends")
+            keywords = query_supabase("keywords", select="article_id,keyword,frequency", limit=5000)
+
+            if not keywords.empty:
+                # Join keywords with articles to get dates
+                kw_df = keywords.merge(articles[["run_id"]], left_on="article_id", right_index=True, how="left")
+                kw_df = kw_df.merge(runs[["id", "scan_date"]], left_on="run_id", right_on="id", how="left")
+
+                # Get top 5 keywords overall
+                top_kw = keywords.groupby("keyword")["frequency"].sum().nlargest(5).index.tolist()
+
+                # Filter and aggregate
+                kw_trend = kw_df[kw_df["keyword"].isin(top_kw)].groupby(["scan_date", "keyword"])["frequency"].sum().reset_index()
+                kw_trend["scan_date"] = pd.to_datetime(kw_trend["scan_date"])
+
+                fig3 = px.line(
+                    kw_trend, x="scan_date", y="frequency", color="keyword",
+                    title="Top 5 Keywords Over Time",
+                    labels={"scan_date": "Date", "frequency": "Mentions"},
+                    markers=True,
+                )
+                fig3.update_layout(plot_bgcolor="#f8f9fc", paper_bgcolor="#f8f9fc")
+                st.plotly_chart(fig3, use_container_width=True)
 
 # ── Page: By Section ──────────────────────────────────────────────────────────
 elif page == "🗂️ By Section":
@@ -259,4 +323,42 @@ elif page == "🔍 Search":
 # ── Page: Archive ─────────────────────────────────────────────────────────────
 elif page == "📅 Archive":
     st.title("📅 Archive")
-    st.info("Archive view requires date filtering — coming soon with enhanced API access.")
+
+    runs = query_supabase("scan_runs", select="id,scan_date", order="scan_date.desc")
+
+    if runs.empty:
+        st.info("No archived scans yet.")
+    else:
+        st.markdown(f"**{len(runs)} scans** in archive")
+
+        selected_date = st.selectbox("Select date", runs["scan_date"].tolist())
+
+        if selected_date:
+            run = runs[runs["scan_date"] == selected_date].iloc[0]
+            run_id = run["id"]
+
+            articles = query_supabase(
+                "articles",
+                select="section,title,url,source_domain,snippet",
+                filters={"run_id": f"eq.{run_id}"},
+                order="section"
+            )
+
+            if articles.empty:
+                st.warning(f"No articles found for {selected_date}")
+            else:
+                st.markdown(f"### {selected_date} — {len(articles)} articles")
+
+                for section in articles["section"].unique():
+                    color = SECTION_COLORS.get(section, "#6C63FF")
+                    section_articles = articles[articles["section"] == section]
+
+                    with st.expander(f"{section} ({len(section_articles)} articles)", expanded=True):
+                        for _, row in section_articles.iterrows():
+                            snippet = str(row.snippet)[:200] if pd.notna(row.snippet) else ""
+                            st.markdown(f"""
+                            <div class="article-card" style="border-color:{color}">
+                              <a href="{row.url}" target="_blank">{row.title}</a>
+                              <div style="font-size:12px;color:#555;margin-top:4px">{snippet}…</div>
+                              <div class="source" style="color:{color}">🔗 {row.source_domain}</div>
+                            </div>""", unsafe_allow_html=True)

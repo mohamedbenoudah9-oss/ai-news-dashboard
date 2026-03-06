@@ -23,9 +23,9 @@ st.markdown("""
   /* Global styles */
   * { font-family: 'Inter', sans-serif !important; }
 
-  /* Main background gradient */
+  /* Main background */
   .stApp {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: #ffffff;
   }
 
   /* Sidebar styling */
@@ -48,10 +48,10 @@ st.markdown("""
   .main .block-container {
     padding: 2rem 3rem;
     max-width: 1400px;
-    background: rgba(255,255,255,0.95);
-    border-radius: 20px;
-    margin: 2rem auto;
-    box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+    background: #ffffff;
+    border-radius: 0px;
+    margin: 0 auto;
+    box-shadow: none;
   }
 
   /* Headers */

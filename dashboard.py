@@ -308,7 +308,7 @@ elif page == "🔥 Hot Topics":
                 title="Top 20 Keywords",
                 labels={"total": "Mentions", "keyword": ""},
             )
-            fig.update_traces(marker_color='#1a1a1a', marker_line_width=0)
+            fig.update_traces(marker_color='#667eea', marker_line_width=0)
             fig.update_layout(
                 yaxis=dict(autorange="reversed"),
                 plot_bgcolor="rgba(0,0,0,0)",
@@ -331,7 +331,7 @@ elif page == "🔥 Hot Topics":
                   <span style="font-size:13px;font-weight:600;color:#1a1a1a">{row.keyword}</span>
                   <span style="float:right;font-size:12px;color:#888;font-weight:500">{int(row.total)}</span>
                   <div style="background:#f5f5f5;border-radius:4px;height:6px;margin-top:8px">
-                    <div style="background:#1a1a1a;width:{pct}%;height:6px;border-radius:4px"></div>
+                    <div style="background:#667eea;width:{pct}%;height:6px;border-radius:4px"></div>
                   </div>
                 </div>""", unsafe_allow_html=True)
 
@@ -362,8 +362,8 @@ elif page == "📈 Trends Over Time":
                 markers=True,
             )
             fig1.update_traces(
-                line_color="#1a1a1a",
-                marker=dict(size=6, color="#1a1a1a"),
+                line_color="#667eea",
+                marker=dict(size=6, color="#667eea"),
             )
             fig1.update_layout(
                 plot_bgcolor="rgba(0,0,0,0)",
@@ -379,12 +379,12 @@ elif page == "📈 Trends Over Time":
             section_daily = df.groupby(["scan_date", "section"]).size().reset_index(name="count")
             section_daily["scan_date"] = pd.to_datetime(section_daily["scan_date"])
 
-            # Use grayscale colors for minimal look
-            gray_colors = {
-                "Top AI News": "#1a1a1a",
-                "Model & Research": "#4a4a4a",
-                "Regulation & Policy": "#6a6a6a",
-                "Investment & Funding": "#8a8a8a",
+            # Use vibrant colors matching Figma design
+            section_colors = {
+                "Top AI News": "#667eea",
+                "Model & Research": "#f093fb",
+                "Regulation & Policy": "#4facfe",
+                "Investment & Funding": "#43e97b",
             }
 
             fig2 = px.line(
@@ -392,7 +392,7 @@ elif page == "📈 Trends Over Time":
                 title="Articles by Section Over Time",
                 labels={"scan_date": "Date", "count": "Articles"},
                 markers=True,
-                color_discrete_map=gray_colors,
+                color_discrete_map=section_colors,
             )
             fig2.update_traces(marker=dict(size=6), line=dict(width=2))
             fig2.update_layout(

@@ -1,7 +1,11 @@
 .env
 *.db
 *.log
-*.md
 __pycache__/
 .streamlit/secrets.toml
 report/
+.DS_Store
+# allow output digest files
+!output/
+!output/*.md
+!output/*.json
